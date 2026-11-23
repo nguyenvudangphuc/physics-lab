@@ -1,0 +1,431 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #080e19;
+    color: #e8f0fa;
+    font-family: 'Inter', sans-serif;
+}
+
+header {
+    height: 72px;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1c2a3d;
+    background: #0b1422;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: #42d9f5;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #a8b7ca;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+nav a:hover {
+    color: #42d9f5;
+}
+
+.status {
+    color: #55e6a5;
+    font-size: 11px;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 24px;
+}
+
+.hero {
+    padding: 65px 0 85px;
+    text-align: center;
+}
+
+.tag {
+    color: #42d9f5;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(35px, 7vw, 65px);
+    margin: 22px 0;
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+.hero h1 span {
+    color: #42d9f5;
+}
+
+.hero p {
+    color: #8fa1b8;
+    max-width: 620px;
+    margin: auto;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 25px;
+    margin-top: 12px;
+}
+
+h3 {
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.panel {
+    background: #101c2d;
+    border: 1px solid #203149;
+    border-radius: 14px;
+    padding: 25px;
+}
+
+.lab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.cylinder-area {
+    height: 290px;
+    background: #0b1524;
+    border: 1px solid #1d3047;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cylinder {
+    height: 210px;
+    width: 135px;
+    border: 4px solid #8197ae;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    position: relative;
+    overflow: hidden;
+    background: #142a40;
+}
+
+.gas {
+    position: absolute;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+    background: linear-gradient(180deg, #126f99, #073b69);
+    transition: height 0.4s ease;
+}
+
+.particles {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #85e9ff;
+    font-size: 17px;
+    line-height: 2;
+}
+
+.piston {
+    position: absolute;
+    width: 125px;
+    height: 12px;
+    top: 98px;
+    left: 1px;
+    background: linear-gradient(#e2edf5, #71889d);
+    border-radius: 4px;
+    transition: top 0.4s ease;
+}
+
+.cylinder-base {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 7px;
+    background: #8fa8bd;
+}
+
+.pressure-arrow {
+    position: absolute;
+    right: 18px;
+    top: 20px;
+    color: #42d9f5;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.simulation-note {
+    color: #8294a9;
+    font-size: 11px;
+    margin: 15px 0 25px;
+}
+
+.control {
+    margin-top: 15px;
+}
+
+.control-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.control-label strong {
+    color: #42d9f5;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #42d9f5;
+    cursor: pointer;
+}
+
+.range-label {
+    display: flex;
+    justify-content: space-between;
+    color: #788da5;
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.metric {
+    background: #0b1524;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.metric span, .metric small {
+    display: block;
+    color: #8da1b8;
+    font-size: 11px;
+}
+
+.metric strong {
+    display: inline-block;
+    font-size: 27px;
+    color: #42d9f5;
+    margin: 8px 5px 5px 0;
+}
+
+.chart-panel > p {
+    color: #8294a9;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    height: 270px;
+    position: relative;
+}
+
+.formula {
+    margin-top: 20px;
+    background: #0b1524;
+    border-radius: 10px;
+    padding: 17px;
+    text-align: center;
+}
+
+.formula span, .formula small {
+    display: block;
+    color: #8399b1;
+    font-size: 10px;
+}
+
+.formula strong {
+    display: block;
+    color: #42d9f5;
+    font-size: 27px;
+    margin: 10px;
+}
+
+.data-section, .theory-section {
+    margin-top: 75px;
+}
+
+.table-panel {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 450px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+th, td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #26364a;
+    font-size: 12px;
+}
+
+th {
+    color: #42d9f5;
+}
+
+td {
+    color: #c5d2e1;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 11px 17px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.primary {
+    background: #42d9f5;
+    color: #07121f;
+}
+
+.reset {
+    background: #203149;
+    color: #c8d7e8;
+}
+
+button:hover {
+    filter: brightness(1.15);
+}
+
+.theory-panel {
+    margin-top: 20px;
+}
+
+.theory-panel > p {
+    color: #a4b4c7;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.big-formula {
+    margin: 25px 0;
+    padding: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #42d9f5;
+    background: #0b1524;
+    border-radius: 10px;
+}
+
+.theory-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.theory-grid div {
+    background: #0b1524;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.theory-grid strong {
+    color: #42d9f5;
+    font-size: 13px;
+}
+
+.theory-grid p, .note {
+    color: #91a3b8;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+footer {
+    margin-top: 80px;
+    padding: 25px;
+    border-top: 1px solid #203149;
+    text-align: center;
+    font-size: 10px;
+    color: #667c96;
+}
+
+@media (max-width: 750px) {
+    header {
+        padding: 0 15px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .status {
+        font-size: 9px;
+    }
+
+    main {
+        padding: 30px 15px;
+    }
+
+    .lab-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 45px 0 60px;
+    }
+
+    .section-heading {
+        gap: 10px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+}
