@@ -2,141 +2,892 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physics Lab | Boyle's Law</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYSICS LAB | Boyle Simulation</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ background:#080e19;
+ color:#e8f3ff;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
+}
+
+header{
+ height:70px;
+ padding:0 6%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:#0d1929;
+ border-bottom:1px solid #24364b;
+}
+
+.logo{
+ color:#45d9ff;
+ font-size:21px;
+ font-weight:800;
+ letter-spacing:2px;
+}
+
+.online{color:#51e6a5;font-size:12px}
+
+main{max-width:1250px;margin:auto;padding:35px 22px}
+
+.hero{text-align:center;padding:35px 0 45px}
+
+.tag{
+ color:#42d9f5;
+ font-size:11px;
+ letter-spacing:2px;
+ font-weight:bold;
+}
+
+h1{
+ font-size:clamp(32px,6vw,55px);
+ margin:15px 0;
+}
+
+h1 span{color:#42d9f5}
+
+.hero p{
+ color:#93a8bf;
+ font-size:14px;
+ line-height:1.7;
+}
+
+.section-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:20px;
+}
+
+h2{font-size:22px;margin-top:10px}
+
+.grid{
+ display:grid;
+ grid-template-columns:1.1fr .9fr;
+ gap:20px;
+}
+
+.panel{
+ background:#101d30;
+ border:1px solid #243750;
+ border-radius:14px;
+ padding:22px;
+ min-width:0;
+}
+
+.panel h3{font-size:15px;margin-bottom:15px}
+
+.lab{
+ background:#091525;
+ border:1px solid #253b55;
+ border-radius:12px;
+ height:410px;
+ position:relative;
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.cylinder{
+ width:230px;
+ height:340px;
+ position:relative;
+ border:5px solid #8096aa;
+ border-top:0;
+ border-radius:0 0 15px 15px;
+ background:rgba(18,49,78,.22);
+ overflow:hidden;
+}
+
+#particleCanvas{
+ position:absolute;
+ left:0;
+ bottom:0;
+ width:100%;
+ height:100%;
+}
+
+.piston{
+ position:absolute;
+ top:0;
+ left:-5px;
+ width:230px;
+ height:13px;
+ background:linear-gradient(#e9f5ff,#728ba5);
+ border-radius:4px;
+ z-index:2;
+ box-shadow:0 3px 12px #42d9f555;
+}
+
+.piston-rod{
+ position:absolute;
+ top:-65px;
+ left:105px;
+ width:13px;
+ height:65px;
+ background:linear-gradient(90deg,#647c92,#dce9f5,#647c92);
+}
+
+.bottom{
+ position:absolute;
+ bottom:0;
+ height:9px;
+ width:100%;
+ background:#8199b0;
+}
+
+.lab-label{
+ position:absolute;
+ top:15px;
+ left:15px;
+ color:#42d9f5;
+ font-size:11px;
+}
+
+.motion-label{
+ position:absolute;
+ bottom:15px;
+ right:15px;
+ color:#9bb1c9;
+ font-size:10px;
+}
+
+.legend{
+ display:flex;
+ justify-content:center;
+ gap:20px;
+ margin-top:15px;
+ color:#9bb0c5;
+ font-size:11px;
+}
+
+.dot{
+ display:inline-block;
+ width:9px;
+ height:9px;
+ border-radius:50%;
+ background:#42d9f5;
+ margin-right:5px;
+ box-shadow:0 0 8px #42d9f5;
+}
+
+.control{margin-top:22px}
+
+.control-head{
+ display:flex;
+ justify-content:space-between;
+ font-size:13px;
+ margin-bottom:12px;
+}
+
+.control-head strong{color:#42d9f5}
+
+input[type=range]{
+ width:100%;
+ accent-color:#42d9f5;
+ cursor:pointer;
+}
+
+.range{
+ display:flex;
+ justify-content:space-between;
+ color:#8299b2;
+ font-size:11px;
+ margin-top:8px;
+}
+
+.buttons{
+ display:flex;
+ gap:10px;
+ margin-top:20px;
+ flex-wrap:wrap;
+}
+
+button{
+ border:0;
+ padding:11px 17px;
+ border-radius:7px;
+ cursor:pointer;
+ font-weight:bold;
+ font-size:12px;
+}
+
+.primary{background:#42d9f5;color:#07121f}
+.secondary{background:#233650;color:#e3edf9}
+
+button:hover{filter:brightness(1.2)}
+
+.stats{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-top:20px;
+}
+
+.stat{
+ padding:17px;
+ background:#091525;
+ border:1px solid #243750;
+ border-radius:10px;
+}
+
+.stat span{
+ display:block;
+ color:#94a9bf;
+ font-size:11px;
+}
+
+.stat strong{
+ display:block;
+ font-size:27px;
+ color:#42d9f5;
+ margin:9px 0;
+}
+
+.stat small{color:#7e96ae}
+
+.formula{
+ margin-top:18px;
+ background:#091525;
+ padding:20px;
+ border-radius:10px;
+ text-align:center;
+}
+
+.formula strong{
+ display:block;
+ font-size:27px;
+ color:#42d9f5;
+ margin:12px;
+}
+
+.chart-area{height:270px;width:100%}
+
+canvas#chart{
+ width:100%;
+ height:100%;
+}
+
+.data-section,.theory-section{margin-top:55px}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ margin-top:15px;
+}
+
+th,td{
+ padding:13px 8px;
+ border-bottom:1px solid #263950;
+ text-align:center;
+ font-size:12px;
+}
+
+th{color:#42d9f5}
+td{color:#c5d4e5}
+
+.table-wrap{overflow-x:auto}
+
+.theory{
+ margin-top:20px;
+ line-height:1.8;
+ color:#a6b9ce;
+ font-size:13px;
+}
+
+.theory strong{color:#42d9f5}
+
+footer{
+ text-align:center;
+ margin-top:65px;
+ padding:25px;
+ color:#7389a3;
+ border-top:1px solid #263950;
+ font-size:11px;
+}
+
+@media(max-width:800px){
+ .grid{grid-template-columns:1fr}
+ main{padding:20px 13px}
+ header{padding:0 15px}
+ .lab{height:370px}
+ .section-title{gap:10px}
+ h2{font-size:19px}
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <div class="logo">⚛ PHYSICS LAB</div>
-    <nav>
-        <a href="#experiment">Thí nghiệm</a>
-        <a href="#theory">Lý thuyết</a>
-        <a href="#data">Số liệu</a>
-    </nav>
-    <span class="status">● SYSTEM ONLINE</span>
+ <div class="logo">⚛ PHYSICS LAB</div>
+ <div class="online">● SIMULATION ONLINE</div>
 </header>
 
 <main>
-    <section class="hero">
-        <span class="tag">VIRTUAL PHYSICS LABORATORY</span>
-        <h1>ĐỊNH LUẬT <span>BOYLE</span></h1>
-        <p>Khám phá mối quan hệ giữa áp suất và thể tích của một lượng khí xác định ở nhiệt độ không đổi.</p>
-    </section>
 
-    <section id="experiment" class="experiment">
-        <div class="section-heading">
-            <div>
-                <span class="tag">01 / SIMULATION</span>
-                <h2>Mô phỏng thí nghiệm</h2>
-            </div>
-            <button id="resetBtn" class="reset">↻ Đặt lại</button>
-        </div>
+<section class="hero">
+ <div class="tag">VIRTUAL PHYSICS LABORATORY</div>
+ <h1>ĐỊNH LUẬT <span>BOYLE</span></h1>
+ <p>
+ Khám phá chuyển động của các phân tử khí
+ và mối quan hệ giữa áp suất và thể tích
+ trong quá trình đẳng nhiệt.
+ </p>
+</section>
 
-        <div class="lab-grid">
-            <div class="panel simulation">
-                <h3>Hệ thống xi lanh chứa khí</h3>
+<section>
+ <div class="section-title">
+  <div>
+   <div class="tag">01 / EXPERIMENT</div>
+   <h2>Mô phỏng thí nghiệm</h2>
+  </div>
+ </div>
 
-                <div class="cylinder-area">
-                    <div class="cylinder">
-                        <div id="gas" class="gas">
-                            <div class="particles">•　·　•　　·<br>　·　•　·　•<br>•　　·　•　·</div>
-                        </div>
-                        <div id="piston" class="piston"></div>
-                        <div class="cylinder-base"></div>
-                    </div>
-                    <div class="pressure-arrow">↓ ÁP SUẤT</div>
-                </div>
+ <div class="grid">
 
-                <p class="simulation-note">Mô phỏng sự thay đổi thể tích khí khi điều chỉnh piston.</p>
+ <div class="panel">
+  <h3>Hệ thống xi lanh chứa khí</h3>
 
-                <div class="control">
-                    <div class="control-label">
-                        <label for="volume">Thể tích khí (V)</label>
-                        <strong id="volumeValue">10.0 L</strong>
-                    </div>
-                    <input type="range" id="volume" min="2" max="20" step="0.5" value="10">
-                    <div class="range-label"><span>2 L</span><span>20 L</span></div>
-                </div>
+  <div class="lab">
+   <div class="lab-label">GAS PARTICLE SIMULATION</div>
 
-                <div class="metrics">
-                    <div class="metric">
-                        <span>Áp suất (P)</span>
-                        <strong id="pressureValue">100</strong>
-                        <small>kPa</small>
-                    </div>
-                    <div class="metric">
-                        <span>Tích P × V</span>
-                        <strong id="pvValue">1000</strong>
-                        <small>kPa.L</small>
-                    </div>
-                </div>
-            </div>
+   <div class="cylinder" id="cylinder">
+    <div class="piston" id="piston">
+     <div class="piston-rod"></div>
+    </div>
 
-            <div class="panel chart-panel">
-                <h3>Biểu đồ áp suất – thể tích</h3>
-                <p>Quan sát sự thay đổi áp suất theo thể tích.</p>
-                <div class="chart-container">
-                    <canvas id="pvChart"></canvas>
-                </div>
-                <div class="formula">
-                    <span>PHƯƠNG TRÌNH BOYLE</span>
-                    <strong>P₁V₁ = P₂V₂</strong>
-                    <small>Ở nhiệt độ không đổi</small>
-                </div>
-            </div>
-        </div>
-    </section>
+    <canvas id="particleCanvas"></canvas>
+    <div class="bottom"></div>
+   </div>
 
-    <section id="data" class="data-section">
-        <span class="tag">02 / EXPERIMENT DATA</span>
-        <h2>Bảng số liệu thực nghiệm</h2>
-        <div class="panel table-panel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lần đo</th>
-                        <th>Thể tích (L)</th>
-                        <th>Áp suất (kPa)</th>
-                        <th>P × V</th>
-                    </tr>
-                </thead>
-                <tbody id="dataTable"></tbody>
-            </table>
-            <button id="addBtn" class="primary">+ Ghi số liệu hiện tại</button>
-            <button id="clearBtn" class="reset">Xóa số liệu</button>
-        </div>
-    </section>
+   <div class="motion-label">MOLECULES IN MOTION</div>
+  </div>
 
-    <section id="theory" class="theory-section">
-        <span class="tag">03 / PHYSICS THEORY</span>
-        <h2>Cơ sở lý thuyết</h2>
-        <div class="panel theory-panel">
-            <h3>Định luật Boyle – Mariotte</h3>
-            <p>Trong quá trình đẳng nhiệt của một lượng khí xác định, áp suất tỉ lệ nghịch với thể tích.</p>
-            <div class="big-formula">P × V = hằng số</div>
-            <div class="theory-grid">
-                <div>
-                    <strong>Áp suất tăng</strong>
-                    <p>Khi thể tích giảm.</p>
-                </div>
-                <div>
-                    <strong>Áp suất giảm</strong>
-                    <p>Khi thể tích tăng.</p>
-                </div>
-            </div>
-            <p class="note">Lưu ý: Mô hình giả định khí lí tưởng và nhiệt độ không đổi.</p>
-        </div>
-    </section>
+  <div class="legend">
+   <span><i class="dot"></i> Phân tử khí</span>
+   <span>↗ Chuyển động liên tục</span>
+  </div>
 
-    <footer>
-        PHYSICS LAB © 2026 · VIRTUAL SCIENCE EXPERIENCE
-    </footer>
+  <div class="control">
+   <div class="control-head">
+    <label>Thể tích khí (V)</label>
+    <strong id="vText">10.0 L</strong>
+   </div>
+
+   <input type="range" id="volume"
+    min="2" max="20" step="0.5" value="10">
+
+   <div class="range">
+    <span>2 L</span><span>20 L</span>
+   </div>
+  </div>
+
+  <div class="buttons">
+   <button class="primary" id="pauseBtn">Ⅱ Tạm dừng</button>
+   <button class="secondary" id="resetBtn">↻ Đặt lại</button>
+  </div>
+
+  <div class="stats">
+   <div class="stat">
+    <span>Áp suất (P)</span>
+    <strong id="pText">100.0</strong>
+    <small>kPa</small>
+   </div>
+
+   <div class="stat">
+    <span>Tích P × V</span>
+    <strong id="pvText">1000</strong>
+    <small>kPa.L</small>
+   </div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h3>Biểu đồ áp suất – thể tích</h3>
+  <p style="font-size:12px;color:#91a8bf;margin-bottom:20px">
+   Đường cong đẳng nhiệt P = 1000/V
+  </p>
+
+  <div class="chart-area">
+   <canvas id="chart"></canvas>
+  </div>
+
+  <div class="formula">
+   <span class="tag">BOYLE'S LAW</span>
+   <strong>P₁V₁ = P₂V₂</strong>
+   <small style="color:#8da5bd">
+    Nhiệt độ không đổi
+   </small>
+  </div>
+
+  <div class="theory">
+   <strong>Nhận xét:</strong>
+   Khi giảm thể tích, các phân tử khí có ít không gian
+   chuyển động hơn. Trong mô hình này, áp suất tăng
+   khi thể tích giảm.
+  </div>
+ </div>
+
+ </div>
+</section>
+
+<section class="data-section">
+ <div class="tag">02 / EXPERIMENT DATA</div>
+ <h2>Bảng số liệu thí nghiệm</h2>
+
+ <div class="panel" style="margin-top:20px">
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>Lần đo</th>
+      <th>V (L)</th>
+      <th>P (kPa)</th>
+      <th>P × V</th>
+     </tr>
+    </thead>
+    <tbody id="dataTable"></tbody>
+   </table>
+  </div>
+
+  <div class="buttons">
+   <button class="primary" id="addBtn">
+    + Ghi số liệu
+   </button>
+   <button class="secondary" id="clearBtn">
+    Xóa dữ liệu
+   </button>
+  </div>
+ </div>
+</section>
+
+<section class="theory-section">
+ <div class="tag">03 / THEORY</div>
+ <h2>Cơ sở lý thuyết</h2>
+
+ <div class="panel theory">
+  <h3>Định luật Boyle – Mariotte</h3>
+
+  Đối với một lượng khí xác định ở nhiệt độ không đổi,
+  áp suất tỉ lệ nghịch với thể tích.
+
+  <div class="formula">
+   <strong>P × V = hằng số</strong>
+  </div>
+
+  <p>
+   • Khi thể tích giảm, áp suất tăng.<br>
+   • Khi thể tích tăng, áp suất giảm.<br>
+   • Tích áp suất và thể tích luôn không đổi
+   trong mô hình lý tưởng.
+  </p>
+
+  <br>
+  <strong>Lưu ý:</strong>
+  Mô phỏng minh họa chuyển động phân tử bằng mô hình
+  động học đơn giản. Áp suất được tính theo công thức
+  Boyle, không phải đo trực tiếp lực va chạm.
+ </div>
+</section>
+
+<footer>
+ PHYSICS LAB © 2026 | VIRTUAL PHYSICS EXPERIENCE
+</footer>
+
 </main>
 
-<script src="script.js"></script>
+<script>
+
+// =============================
+// 1. KHAI BÁO
+// =============================
+
+const canvas = document.getElementById("particleCanvas");
+const ctx = canvas.getContext("2d");
+
+const cylinder = document.getElementById("cylinder");
+const piston = document.getElementById("piston");
+
+const volumeInput = document.getElementById("volume");
+
+let V = 10;
+const K = 1000;
+let particles = [];
+let running = true;
+let records = [];
+
+let W = 220;
+let H = 340;
+let topLimit = 170;
+
+
+// =============================
+// 2. TẠO PHÂN TỬ KHÍ
+// =============================
+
+function createParticles(){
+
+ particles = [];
+
+ for(let i=0;i<45;i++){
+
+  particles.push({
+   x:Math.random()*W,
+   y:Math.random()*H,
+   vx:(Math.random()-0.5)*2.8,
+   vy:(Math.random()-0.5)*2.8,
+   r:3+Math.random()*1.5
+  });
+
+ }
+}
+
+
+// =============================
+// 3. ĐIỀU CHỈNH XI LANH
+// =============================
+
+function resizeCanvas(){
+
+ const rect=cylinder.getBoundingClientRect();
+
+ W=rect.width-10;
+ H=rect.height-10;
+
+ canvas.width=W*devicePixelRatio;
+ canvas.height=H*devicePixelRatio;
+
+ ctx.setTransform(
+  devicePixelRatio,0,0,devicePixelRatio,0,0
+ );
+
+ particles.forEach(p=>{
+  p.x=Math.min(p.x,W-5);
+  p.y=Math.min(p.y,H-5);
+ });
+
+ updatePiston();
+
+}
+
+function updatePiston(){
+
+ // Thể tích tỉ lệ với chiều cao khoang khí
+ const gasHeight=H*(V/20);
+
+ topLimit=H-gasHeight;
+
+ piston.style.top=topLimit+"px";
+
+ // Giữ phân tử trong khoang khí
+ particles.forEach(p=>{
+  if(p.y<topLimit+5){
+   p.y=topLimit+5+Math.random()*(H-topLimit-10);
+  }
+ });
+
+}
+
+
+// =============================
+// 4. VẼ VÀ DI CHUYỂN PHÂN TỬ
+// =============================
+
+function animate(){
+
+ ctx.clearRect(0,0,W,H);
+
+ particles.forEach(p=>{
+
+  if(running){
+
+   p.x+=p.vx;
+   p.y+=p.vy;
+
+   // Va chạm thành trái và phải
+   if(p.x<p.r || p.x>W-p.r){
+    p.vx*=-1;
+    p.x=Math.max(p.r,Math.min(W-p.r,p.x));
+   }
+
+   // Va chạm piston
+   if(p.y<topLimit+p.r){
+    p.vy=Math.abs(p.vy);
+    p.y=topLimit+p.r;
+   }
+
+   // Va chạm đáy
+   if(p.y>H-p.r){
+    p.vy=-Math.abs(p.vy);
+    p.y=H-p.r;
+   }
+
+  }
+
+  // Vẽ phân tử
+  ctx.beginPath();
+
+  ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+
+  ctx.fillStyle="#42d9f5";
+
+  ctx.shadowBlur=12;
+  ctx.shadowColor="#42d9f5";
+
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+ });
+
+ requestAnimationFrame(animate);
+
+}
+
+
+// =============================
+// 5. BIỂU ĐỒ P-V
+// =============================
+
+function drawChart(){
+
+ const chart=document.getElementById("chart");
+ const c=chart.getContext("2d");
+
+ const width=chart.clientWidth;
+ const height=chart.clientHeight;
+
+ chart.width=width*devicePixelRatio;
+ chart.height=height*devicePixelRatio;
+
+ c.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+
+ c.clearRect(0,0,width,height);
+
+ const left=42;
+ const right=12;
+ const top=15;
+ const bottom=35;
+
+ const cw=width-left-right;
+ const ch=height-top-bottom;
+
+ // Trục
+ c.strokeStyle="#52677e";
+ c.lineWidth=1;
+
+ c.beginPath();
+ c.moveTo(left,top);
+ c.lineTo(left,height-bottom);
+ c.lineTo(width-right,height-bottom);
+ c.stroke();
+
+ // Lưới
+ c.font="10px Arial";
+ c.fillStyle="#8fa5bd";
+ c.strokeStyle="#253951";
+
+ for(let i=0;i<=5;i++){
+
+  let y=top+ch*i/5;
+
+  c.beginPath();
+  c.moveTo(left,y);
+  c.lineTo(width-right,y);
+  c.stroke();
+
+  c.fillText(500-i*100,5,y+3);
+
+ }
+
+ for(let i=0;i<=6;i++){
+
+  let x=left+cw*i/6;
+
+  c.beginPath();
+  c.moveTo(x,top);
+  c.lineTo(x,height-bottom);
+  c.stroke();
+
+  c.fillText((2+i*3).toString(),x-5,height-bottom+17);
+
+ }
+
+ // Đường cong
+ c.beginPath();
+
+ for(let i=0;i<=150;i++){
+
+  let v=2+i*18/150;
+  let p=K/v;
+
+  let x=left+(v-2)/18*cw;
+  let y=top+(500-p)/500*ch;
+
+  if(i===0)c.moveTo(x,y);
+  else c.lineTo(x,y);
+
+ }
+
+ c.strokeStyle="#42d9f5";
+ c.lineWidth=2.5;
+ c.stroke();
+
+ // Điểm hiện tại
+ let P=K/V;
+
+ let x=left+(V-2)/18*cw;
+ let y=top+(500-P)/500*ch;
+
+ c.beginPath();
+ c.arc(x,y,6,0,Math.PI*2);
+ c.fillStyle="#ffffff";
+ c.fill();
+
+ c.fillStyle="#42d9f5";
+ c.fillText("V (L)",width-35,height-5);
+
+}
+
+
+// =============================
+// 6. CẬP NHẬT THÍ NGHIỆM
+// =============================
+
+function update(){
+
+ V=Number(volumeInput.value);
+
+ const P=K/V;
+
+ document.getElementById("vText").textContent=
+  V.toFixed(1)+" L";
+
+ document.getElementById("pText").textContent=
+  P.toFixed(1);
+
+ document.getElementById("pvText").textContent=
+  (P*V).toFixed(1);
+
+ updatePiston();
+ drawChart();
+
+}
+
+volumeInput.addEventListener("input",update);
+
+
+// =============================
+// 7. TẠM DỪNG
+// =============================
+
+document.getElementById("pauseBtn").onclick=function(){
+
+ running=!running;
+
+ this.textContent=running
+  ?"Ⅱ Tạm dừng"
+  :"▶ Tiếp tục";
+
+};
+
+
+// =============================
+// 8. ĐẶT LẠI
+// =============================
+
+document.getElementById("resetBtn").onclick=function(){
+
+ volumeInput.value=10;
+
+ update();
+
+ running=true;
+
+ document.getElementById("pauseBtn").textContent=
+  "Ⅱ Tạm dừng";
+
+};
+
+
+// =============================
+// 9. GHI SỐ LIỆU
+// =============================
+
+function renderTable(){
+
+ const table=document.getElementById("dataTable");
+
+ table.innerHTML="";
+
+ records.forEach((r,i)=>{
+
+  const tr=document.createElement("tr");
+
+  [i+1,r.V.toFixed(1),r.P.toFixed(1),r.PV.toFixed(1)]
+  .forEach(value=>{
+
+   const td=document.createElement("td");
+
+   td.textContent=value;
+
+   tr.appendChild(td);
+
+  });
+
+  table.appendChild(tr);
+
+ });
+
+}
+
+document.getElementById("addBtn").onclick=function(){
+
+ const P=K/V;
+
+ records.push({
+  V:V,
+  P:P,
+  PV:P*V
+ });
+
+ renderTable();
+
+};
+
+document.getElementById("clearBtn").onclick=function(){
+
+ records=[];
+
+ renderTable();
+
+};
+
+
+// =============================
+// 10. KHỞI ĐỘNG
+// =============================
+
+createParticles();
+
+resizeCanvas();
+
+window.addEventListener("resize",resizeCanvas);
+
+update();
+
+animate();
+
+</script>
+
 </body>
 </html>
